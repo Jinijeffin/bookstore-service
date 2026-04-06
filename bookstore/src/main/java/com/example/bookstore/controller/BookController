@@ -1,0 +1,31 @@
+@RestController
+@RequestMapping("/books")
+public class BookController{
+    @Autowired
+    public BookService bookService;
+
+    @PostMapping
+    public ResponseEntity<BookResponseDto> createBook(@RequestBody BookRequestDto dto){
+       BookResponseDto createdBook = bookService.createBook(dto);
+       return ResponseEntity.status(HttpStatus.CREATED).body(createdBook);
+    }
+    @GetMapping
+    public ResponseEntity<List<BookResponseDto>> getAllBooks(){
+        List<BookResponseDto> books = bookService.getAllBooks();
+        return ResponseEntity.status(HttpStatus.OK).body(books);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<BookResponseDto> getBookById(@PathVariable Long id){
+        BookResponseDto book=bookService.getBookById();
+        return ResponseEntity.status(HttpStatus.OK).body(book);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<BookResponseDto>updateBook(@PatVariable Long id,"ResponseBody BookRequestDto dto){
+    BookResponseDto updatedBook = bookService.updateBook(id,dto);
+    return ResponseEntity.status(HttpStatus.OK).body(updatedBook);
+}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<void> deleteBook(@PathVariable Long id){
+    bookService.deleteBook(id);
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
