@@ -1,11 +1,6 @@
 {
     "name": "Bookstore Service",
-    "image": "mcr.microsoft.com/devcontainers/java:21",
-    "features": {
-        "ghcr.io/devcontainers/features/postgres:1": {
-            "version": "16",
-            "password": "book123"
-        }
-    },
-    "postCreateCommand": "sudo service postgresql start && sudo runuser -l postgres -c \"psql -c 'CREATE USER bookuser WITH PASSWORD \\\"book123\\\";'\" && sudo runuser -l postgres -c \"psql -c 'CREATE DATABASE bookstoredb OWNER bookuser;'\""
+    "image": "mcr.microsoft.com/devcontainers/java:25",
+    "forwardPorts": [8080, 5432],
+    "postCreateCommand": "sudo apt-get install -y postgresql postgresql-contrib && sudo sed -i 's/local   all             postgres                                peer/local   all             postgres                                trust/' /etc/postgresql/16/main/pg_hba.conf && sudo service postgresql restart && sudo runuser -l postgres -c \"psql -c 'CREATE USER bookuser WITH PASSWORD \\\"book123\\\";'\" && sudo runuser -l postgres -c \"psql -c 'CREATE DATABASE bookstoredb OWNER bookuser;'\""
 }
